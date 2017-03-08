@@ -13,6 +13,8 @@ package assignment4;
  */
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -51,7 +53,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		x_coord = 1;
+		
 	}
 	
 	protected final void run(int direction) {
@@ -75,6 +77,40 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		Class<?> myCritter = null;
+		Constructor<?> constructor = null;
+		Object instanceOfMyCritter = null;
+		
+		try {
+			myCritter = Class.forName(critter_class_name);
+		} catch (ClassNotFoundException e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		
+		try { 
+			constructor = myCritter.getConstructor();
+			instanceOfMyCritter = constructor.newInstance();
+		} catch (NoSuchMethodException e) {
+			//TODO 
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		Critter c = (Critter) instanceOfMyCritter;
+		c.energy = Params.start_energy;
+		c.x_coord = getRandomInt(Params.world_width - 1);
+		c.y_coord = getRandomInt(Params.world_height - 1);
+		population.add(c);
 	}
 	
 	/**
