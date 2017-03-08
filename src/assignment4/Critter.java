@@ -15,6 +15,7 @@ package assignment4;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.Class;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -85,9 +86,11 @@ public abstract class Critter {
 				x_coord = (x_coord + steps) % Params.world_width;
 				y_coord = (y_coord + steps) % Params.world_height;
 		}
+		
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		
 	}
 
 	public abstract void doTimeStep();
@@ -113,12 +116,10 @@ public abstract class Critter {
 		} catch (ClassNotFoundException e) {
 			throw new InvalidCritterException(critter_class_name);
 		}
-		
 		//check if subclass of Critter
 		if (!Critter.class.isAssignableFrom(my_critter)) {
 			throw new InvalidCritterException(critter_class_name);
 		}
-		
 		try { 
 			constructor = my_critter.getConstructor();
 			instance_of_my_critter = constructor.newInstance();
@@ -141,7 +142,17 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		for(Critter current : population) {
+			Class<?> type;
+			try{
+		    type = Class.forName(critter_class_name);
+			} catch (ClassNotFoundException c) {
+				throw new InvalidCritterException(critter_class_name);
+			}
+		    if(type.isAssignableFrom(current.getClass())) {
+		    	result.add(current);
+		    }
+		}
 		return result;
 	}
 	
@@ -225,7 +236,8 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-		// TODO Complete this method.
+		population.clear();
+		babies.clear();
 	}
 	
 	public static void worldTimeStep() {
@@ -240,6 +252,28 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {
-		// TODO Complete this method.
+		// creates and populates 2D array representation of all the critters
+		char[][] world = new char[Params.world_width][Params.world_height];
+		for(Critter current : population) {
+			world[current.x_coord][current.y_coord] = current.toString().charAt(0);
+		}
+		// prints the 2D array + border out
+		// top border
+		System.out.print("+");
+		for(int i = 0; i < Params.world_width; i++) {
+			System.out.print("-");
+		}
+		System.out.println("+");
+		// each row of the map (with borders on left/right)
+		for(int j = 0; j < Params.world_height; j++) {
+			String row = new String(world[j]);
+			System.out.println("|" + row + "|");
+		}
+		// bottom border
+		System.out.print("+");
+		for(int k = 0; k < Params.world_width; k++) {
+			System.out.print("-");
+		}
+		System.out.println("+");
 	}
 }
