@@ -15,6 +15,8 @@ package assignment4;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.Class;
+import java.util.Iterator;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -53,41 +55,15 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		move(direction, 1, Params.walk_energy_cost);
+		
 	}
 	
 	protected final void run(int direction) {
-		move(direction, 2, Params.run_energy_cost);
-	}
-	
-	protected final void move(int direction, int steps, int energy_deducted) {
-		switch(direction) {
-			case 0://right
-				x_coord = (x_coord + steps) % Params.world_width;
-			case 1://up-right
-				x_coord = (x_coord + steps) % Params.world_width;
-				y_coord = (y_coord - steps) % Params.world_height;
-			case 2://up
-				y_coord = (y_coord - steps) % Params.world_height;
-			case 3://up-left
-				x_coord = (x_coord - steps) % Params.world_width;
-				y_coord = (y_coord - steps) % Params.world_height;
-			case 4://left
-				x_coord = (x_coord - steps) % Params.world_width;
-			case 5://down-left
-				x_coord = (x_coord - steps) % Params.world_width;
-				y_coord = (y_coord + steps) % Params.world_height;
-			case 6://down
-				y_coord = (y_coord + steps) % Params.world_height;
-			case 7://down-right
-				x_coord = (x_coord + steps) % Params.world_width;
-				y_coord = (y_coord + steps) % Params.world_height;
-		}
 		
-		energy -= energy_deducted;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		
 	}
 
 	public abstract void doTimeStep();
@@ -111,11 +87,6 @@ public abstract class Critter {
 		try {
 			myCritter = Class.forName(critter_class_name);
 		} catch (ClassNotFoundException e) {
-			throw new InvalidCritterException(critter_class_name);
-		}
-		
-		//check if subclass of Critter
-		if (!Critter.class.isAssignableFrom(myCritter)) {
 			throw new InvalidCritterException(critter_class_name);
 		}
 		
@@ -153,7 +124,18 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		for(Critter current : population) {
+			Class<?> type;
+			try{
+		    type = Class.forName("critter_class_name");
+			} 
+			catch (ClassNotFoundException c) {
+				throw new InvalidCritterException(critter_class_name);
+			}
+		    if(type.isAssignableFrom(current.getClass())) {
+		    	result.add(current);
+		    }
+		}
 		return result;
 	}
 	
