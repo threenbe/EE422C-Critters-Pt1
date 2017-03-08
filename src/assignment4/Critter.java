@@ -225,14 +225,15 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-		// Complete this method.
+		// TODO Complete this method.
 	}
 	
 	public static void worldTimeStep() {
-		// Complete this method.
+		// TODO Complete this method.
+		
 	}
 	
 	public static void displayWorld() {
-		// Complete this method.
+		// TODO Complete this method.
 	}
 }
