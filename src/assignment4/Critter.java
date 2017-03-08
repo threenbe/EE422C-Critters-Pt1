@@ -53,11 +53,38 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		
+		move(direction, 1, Params.walk_energy_cost);
 	}
 	
 	protected final void run(int direction) {
+		move(direction, 2, Params.run_energy_cost);
+	}
+	
+	protected final void move(int direction, int steps, int energy_deducted) {
+		switch(direction) {
+			case 0://right
+				x_coord = (x_coord + steps) % Params.world_width;
+			case 1://up-right
+				x_coord = (x_coord + steps) % Params.world_width;
+				y_coord = (y_coord - steps) % Params.world_height;
+			case 2://up
+				y_coord = (y_coord - steps) % Params.world_height;
+			case 3://up-left
+				x_coord = (x_coord - steps) % Params.world_width;
+				y_coord = (y_coord - steps) % Params.world_height;
+			case 4://left
+				x_coord = (x_coord - steps) % Params.world_width;
+			case 5://down-left
+				x_coord = (x_coord - steps) % Params.world_width;
+				y_coord = (y_coord + steps) % Params.world_height;
+			case 6://down
+				y_coord = (y_coord + steps) % Params.world_height;
+			case 7://down-right
+				x_coord = (x_coord + steps) % Params.world_width;
+				y_coord = (y_coord + steps) % Params.world_height;
+		}
 		
+		energy -= energy_deducted;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
