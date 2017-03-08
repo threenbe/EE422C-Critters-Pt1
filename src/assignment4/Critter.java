@@ -255,6 +255,7 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {
+		/// ohfpasjf;asdklfjasdf;
 		// creates and populates 2D array representation of all the critters
 		char[][] world = new char[Params.world_width][Params.world_height];
 		for(Critter current : population) {
