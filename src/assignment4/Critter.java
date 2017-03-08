@@ -51,6 +51,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
+		x_coord = 1;
 	}
 	
 	protected final void run(int direction) {
