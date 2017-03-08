@@ -127,9 +127,8 @@ public abstract class Critter {
 		for(Critter current : population) {
 			Class<?> type;
 			try{
-		    type = Class.forName("critter_class_name");
-			} 
-			catch (ClassNotFoundException c) {
+		    type = Class.forName(critter_class_name);
+			} catch (ClassNotFoundException c) {
 				throw new InvalidCritterException(critter_class_name);
 			}
 		    if(type.isAssignableFrom(current.getClass())) {
@@ -219,7 +218,8 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-		// Complete this method.
+		population.clear();
+		babies.clear();
 	}
 	
 	public static void worldTimeStep() {
@@ -227,6 +227,28 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {
-		// Complete this method.
+		// creates and populates 2D array representation of all the critters
+		char[][] world = new char[Params.world_width][Params.world_height];
+		for(Critter current : population) {
+			world[current.x_coord][current.y_coord] = current.toString().charAt(0);
+		}
+		// prints the 2D array + border out
+		// top border
+		System.out.print("+");
+		for(int i = 0; i < Params.world_width; i++) {
+			System.out.print("-");
+		}
+		System.out.println("+");
+		// each row of the map (with borders on left/right)
+		for(int j = 0; j < Params.world_height; j++) {
+			String row = new String(world[j]);
+			System.out.println("|" + row + "|");
+		}
+		// bottom border
+		System.out.print("+");
+		for(int k = 0; k < Params.world_width; k++) {
+			System.out.print("-");
+		}
+		System.out.println("+");
 	}
 }
