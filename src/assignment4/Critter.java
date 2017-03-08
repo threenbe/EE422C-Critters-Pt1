@@ -249,6 +249,9 @@ public abstract class Critter {
 		}
 		
 		//resolve encounters
+		for (Critter c : population) {
+			//some other stuff
+		}
 	}
 	
 	public static void displayWorld() {
