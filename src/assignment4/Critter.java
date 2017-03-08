@@ -114,6 +114,11 @@ public abstract class Critter {
 			throw new InvalidCritterException(critter_class_name);
 		}
 		
+		//check if subclass of Critter
+		if (!Critter.class.isAssignableFrom(myCritter)) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		
 		try { 
 			constructor = myCritter.getConstructor();
 			instanceOfMyCritter = constructor.newInstance();
