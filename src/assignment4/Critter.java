@@ -53,14 +53,16 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		move(direction, 1, Params.walk_energy_cost);
+		move(direction, 1);
+		energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		move(direction, 2, Params.run_energy_cost);
+		move(direction, 2);
+		energy -= Params.run_energy_cost;
 	}
 	
-	protected final void move(int direction, int steps, int energy_deducted) {
+	protected final void move(int direction, int steps) {
 		switch(direction) {
 			case 0://right
 				x_coord = (x_coord + steps) % Params.world_width;
@@ -83,8 +85,6 @@ public abstract class Critter {
 				x_coord = (x_coord + steps) % Params.world_width;
 				y_coord = (y_coord + steps) % Params.world_height;
 		}
-		
-		energy -= energy_deducted;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -231,6 +231,12 @@ public abstract class Critter {
 	public static void worldTimeStep() {
 		// TODO Complete this method.
 		
+		//do time steps
+		for (Critter c : population) {
+			c.doTimeStep();
+		}
+		
+		//resolve encounters
 	}
 	
 	public static void displayWorld() {
