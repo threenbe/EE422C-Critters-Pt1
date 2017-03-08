@@ -249,13 +249,10 @@ public abstract class Critter {
 		}
 		
 		//resolve encounters
-		for (Critter c : population) {
-			//some other stuff
-		}
+		//here
 	}
 	
 	public static void displayWorld() {
-		/// ohfpasjf;asdklfjasdf;
 		// creates and populates 2D array representation of all the critters
 		char[][] world = new char[Params.world_width][Params.world_height];
 		for(Critter current : population) {
