@@ -209,12 +209,8 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-<<<<<<< HEAD
 		population.clear();
 		babies.clear();
-=======
-		// TODO Complete this method.
->>>>>>> origin/master
 	}
 	
 	public static void worldTimeStep() {
@@ -223,7 +219,6 @@ public abstract class Critter {
 	}
 	
 	public static void displayWorld() {
-<<<<<<< HEAD
 		// creates and populates 2D array representation of all the critters
 		char[][] world = new char[Params.world_width][Params.world_height];
 		for(Critter current : population) {
@@ -247,8 +242,5 @@ public abstract class Critter {
 			System.out.print("-");
 		}
 		System.out.println("+");
-=======
-		// TODO Complete this method.
->>>>>>> origin/master
 	}
 }
