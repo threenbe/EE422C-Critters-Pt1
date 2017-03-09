@@ -90,7 +90,17 @@ public abstract class Critter {
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
-		
+		// check if parent has enough energy
+		if(this.getEnergy() < Params.min_reproduce_energy) return;
+		// set energy of parent/child
+		offspring.energy = this.energy / 2;
+		this.energy = this.energy/2 + this.energy%2;
+		// place child in world
+		offspring.x_coord = this.x_coord;
+		offspring.y_coord = this.y_coord;
+		offspring.move(direction, 1);
+		// add child to babies list
+		babies.add(offspring);
 	}
 
 	public abstract void doTimeStep();
