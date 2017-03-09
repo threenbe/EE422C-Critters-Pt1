@@ -217,6 +217,17 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * Removes "dead" critters i.e. critters with no energy
+	 */
+	public static void removeDeadCritters() {
+		for (Critter current: population) {
+			if(current.getEnergy() <= 0) {
+				population.remove(current);
+			}
+		}
+	}
+	
 	/* the TestCritter class allows some critters to "cheat". If you want to 
 	 * create tests of your Critter model, you can create subclasses of this class
 	 * and then use the setter functions contained here. 
