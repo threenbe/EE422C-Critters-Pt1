@@ -12,6 +12,7 @@ package assignment4;
  * Fall 2016
  */
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
@@ -69,11 +70,59 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
+        while(true) {
+        	ArrayList<String> tokens = parse(kb);
+        	if(tokens.get(0).equals("quit")) {
+        		if(tokens.size() != 1) { // this should probably be changed
+            		System.out.print("error processing:");
+            		for(String token : tokens) {
+            			System.out.print(" " + token);
+            		}
+            		System.out.println();
+        		}
+        		else break;
+        	}
+        	try {
+        		execute(tokens);
+        	} catch (Exception e) {
+        		System.out.print("error processing:");
+        		for(String token : tokens) {
+        			System.out.print(" " + token);
+        		}
+        		System.out.println();
+        	}
+        }
         // System.out.println("GLHF");
         
         /* Write your code above */
         System.out.flush();
 
+    }
+    
+    public static ArrayList<String> parse(Scanner kb) {
+    	ArrayList<String> tokens = new ArrayList<String>();
+    	while(kb.hasNext()) {
+    		tokens.add(kb.next());
+    	}
+    	return tokens;
+    }
+    
+    
+    public static void execute(ArrayList<String> tokens) {
+    	if(tokens.get(0).equals("show")) Critter.displayWorld();
+    	if(tokens.get(0).equals("step")) {
+    		int steps = 1;
+    		if(tokens.size() > 1) {
+    			try {
+    				steps = Integer.parseInt(tokens.get(1));
+    			} catch (Exception e){
+    				return;
+    			}
+    		}
+    		while (steps > 0) {
+    			Critter.worldTimeStep();
+    			steps--;
+    		}
+    	}
     }
 }
