@@ -16,7 +16,10 @@ package assignment4;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.Class;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -190,6 +193,30 @@ public abstract class Critter {
 		System.out.println();		
 	}
 	
+	public static void doEncounters() {
+		List<Critter> shared = new ArrayList<Critter>();
+		for (int x = 0; x < Params.world_width; x++) {
+			for (int y = 0; y < Params.world_height; y++) {
+				for (Critter c : population) {
+					if (c.x_coord == x && c.y_coord == y) {
+						shared.add(c);
+					}
+				}
+				while (shared.size() > 1) {
+					Critter a = shared.get(0);
+					Critter b = shared.get(1);
+					boolean fight_or_flight_a = a.fight(b.toString());
+					boolean fight_or_flight_b = a.fight(b.toString());
+					if (a.energy > 0 && b.energy > 0 
+							&& a.x_coord == x && a.y_coord == y
+							&& b.x_coord == x && b.y_coord == y) {
+						
+					}
+				}
+			}
+		}
+	}
+	
 	/* the TestCritter class allows some critters to "cheat". If you want to 
 	 * create tests of your Critter model, you can create subclasses of this class
 	 * and then use the setter functions contained here. 
@@ -259,7 +286,7 @@ public abstract class Critter {
 		}
 		
 		//resolve encounters
-		//here
+		doEncounters();
 	}
 	
 	public static void displayWorld() {
