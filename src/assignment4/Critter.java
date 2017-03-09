@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.Class;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -142,8 +143,8 @@ public abstract class Critter {
 		
 		Critter c = (Critter) instance_of_my_critter;
 		c.energy = Params.start_energy;
-		c.x_coord = getRandomInt(Params.world_width - 1);
-		c.y_coord = getRandomInt(Params.world_height - 1);
+		c.x_coord = getRandomInt(Params.world_width);
+		c.y_coord = getRandomInt(Params.world_height);
 		population.add(c);
 	}
 	
@@ -197,22 +198,54 @@ public abstract class Critter {
 		List<Critter> shared = new ArrayList<Critter>();
 		for (int x = 0; x < Params.world_width; x++) {
 			for (int y = 0; y < Params.world_height; y++) {
+				//add all critters in this position to list
 				for (Critter c : population) {
-					if (c.x_coord == x && c.y_coord == y) {
+					if (c.x_coord == x && c.y_coord == y && c.energy > 0) {
 						shared.add(c);
 					}
 				}
+				//take care of encounters until there are 0-1 critters left
 				while (shared.size() > 1) {
 					Critter a = shared.get(0);
 					Critter b = shared.get(1);
-					boolean fight_or_flight_a = a.fight(b.toString());
-					boolean fight_or_flight_b = a.fight(b.toString());
+					//see if the critters want to fight
+					boolean fight_a = a.fight(b.toString());
+					boolean fight_b = a.fight(b.toString());
+					
+					//critters fight if these conditions are met
 					if (a.energy > 0 && b.energy > 0 
 							&& a.x_coord == x && a.y_coord == y
 							&& b.x_coord == x && b.y_coord == y) {
 						
+						int rand_a, rand_b;
+						
+						if (fight_a)
+							rand_a = getRandomInt(a.energy);
+						else
+							rand_a = 0;
+						
+						if (fight_b)
+							rand_b = getRandomInt(b.energy);
+						else
+							rand_b = 0;
+							
+						if (rand_a > rand_b) {
+							a.energy += (b.energy/2);
+							b.energy = 0;
+						} else {
+							b.energy += (a.energy/2);
+							a.energy = 0;
+						}
 					}
+					
+					//dead critters removed from list of critters at this position
+					if (a.energy <= 0)
+						shared.remove(a);
+					if (b.energy <= 0)
+						shared.remove(b);	
 				}
+				//"shared" list cleared so that the next position can be handled
+				shared.clear();
 			}
 		}
 	}
@@ -221,9 +254,11 @@ public abstract class Critter {
 	 * Removes "dead" critters i.e. critters with no energy
 	 */
 	public static void removeDeadCritters() {
-		for (Critter current: population) {
-			if(current.getEnergy() <= 0) {
-				population.remove(current);
+		Iterator<Critter> i = population.iterator();
+		while (i.hasNext()) {
+			Critter c = i.next();
+			if (c.energy <= 0) {
+				i.remove();
 			}
 		}
 	}
@@ -298,6 +333,27 @@ public abstract class Critter {
 		
 		//resolve encounters
 		doEncounters();
+		
+		//update rest energy
+		for (Critter c : population) {
+			c.energy -= Params.rest_energy_cost;
+		}
+		
+		//generate algae
+		for (int i = 0; i < Params.refresh_algae_count; i++) {
+			Critter a = new Algae();
+			a.energy = Params.start_energy;
+			a.x_coord = getRandomInt(Params.world_width);
+			a.y_coord = getRandomInt(Params.world_height);
+			population.add(a);
+		}
+		
+		//add babies to population
+		population.addAll(babies);
+		babies.clear();
+		
+		//remove dead critters
+		removeDeadCritters();
 	}
 	
 	public static void displayWorld() {
