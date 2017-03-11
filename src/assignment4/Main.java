@@ -101,18 +101,36 @@ public class Main {
     }
     
     
+    public static void checkCommandLength(ArrayList<String> tokens, int length) throws Exception {
+    	if(tokens.size() != length) throw new Exception();
+    }
+    
+    
     public static boolean execute(ArrayList<String> tokens) throws Exception {
+    	// quit
     	if(tokens.get(0).equals("quit")) {
-    		if(tokens.size() != 1) {
-        		throw new Exception();
+    		try {
+    			checkCommandLength(tokens, 1);
+    			return false;
+    		} catch (Exception e){
+    			throw e;
     		}
-    		else return false;
     	}
-    	if(tokens.get(0).equals("show")) Critter.displayWorld();
+    	// show
+    	if(tokens.get(0).equals("show")) {
+    		try {
+    			checkCommandLength(tokens, 1);
+    			Critter.displayWorld();
+    		} catch (Exception e){
+    			throw e;
+    		}
+    	}
+    	// step
     	if(tokens.get(0).equals("step")) {
     		int steps = 1;
     		if(tokens.size() > 1) {
     			try {
+    				checkCommandLength(tokens, 2);
     				steps = Integer.parseInt(tokens.get(1));
     			} catch (Exception e){ // next token isnt an int
     				throw new Exception();
@@ -122,6 +140,23 @@ public class Main {
     			Critter.worldTimeStep();
     			steps--;
     		}
+    	}
+    	// seed
+    	if(tokens.get(0).equals("seed")) {
+    		try {
+    			checkCommandLength(tokens, 2);
+    			Critter.setSeed(Integer.parseInt(tokens.get(1)));
+    		} catch (Exception e){ // next token isnt an int
+				throw new Exception();
+			}
+    	}
+    	// make
+    	if(tokens.get(0).equals("make")) {
+    		
+    	}
+    	// stats
+    	if(tokens.get(0).equals("stats")) {
+    		
     	}
     	// unknown command
     	throw new Exception();
