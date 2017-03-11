@@ -13,6 +13,7 @@ package assignment4;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -124,6 +125,7 @@ public class Main {
     		} catch (Exception e){
     			throw e;
     		}
+    		return true;
     	}
     	// step
     	if(tokens.get(0).equals("step")) {
@@ -140,6 +142,7 @@ public class Main {
     			Critter.worldTimeStep();
     			steps--;
     		}
+    		return true;
     	}
     	// seed
     	if(tokens.get(0).equals("seed")) {
@@ -149,14 +152,30 @@ public class Main {
     		} catch (Exception e){ // next token isnt an int
 				throw new Exception();
 			}
+    		return true;
     	}
     	// make
     	if(tokens.get(0).equals("make")) {
+    		Class<?> type; 
     		
+    		List<Critter> result = new java.util.ArrayList<Critter>();
+    		/*for(Critter current : population) {
+    			Class<?> type;
+    			try{
+    		    type = Class.forName(critter_class_name);
+    			} catch (ClassNotFoundException c) {
+    				throw new InvalidCritterException(critter_class_name);
+    			}
+    		    if(type.isAssignableFrom(current.getClass())) {
+    		    	result.add(current);
+    		    }
+    		}*/
+    		return true;
     	}
     	// stats
     	if(tokens.get(0).equals("stats")) {
-    		
+
+    		return true;
     	}
     	// unknown command
     	throw new Exception();
