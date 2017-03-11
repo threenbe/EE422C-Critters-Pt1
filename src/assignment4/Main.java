@@ -94,10 +94,13 @@ public class Main {
     }
     
     public static ArrayList<String> parse(Scanner kb) {
+    	String token = kb.nextLine();
+    	Scanner sc = new Scanner(token);
     	ArrayList<String> tokens = new ArrayList<String>();
-    	while(kb.hasNext()) {
-    		tokens.add(kb.next());
+    	while(sc.hasNext()) {
+    		tokens.add(sc.next());
     	}
+    	sc.close();
     	return tokens;
     }
     
