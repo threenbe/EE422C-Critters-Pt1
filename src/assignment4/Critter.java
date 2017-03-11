@@ -233,7 +233,7 @@ public abstract class Critter {
 					Critter b = shared.get(1);
 					//see if the critters want to fight
 					boolean fight_a = a.fight(b.toString());
-					boolean fight_b = a.fight(b.toString());
+					boolean fight_b = b.fight(a.toString());
 					
 					//critters fight if these conditions are met
 					if (a.energy > 0 && b.energy > 0 
