@@ -385,8 +385,11 @@ public abstract class Critter {
 		System.out.println("+");
 		// each row of the map (with borders on left/right)
 		for(int j = 0; j < Params.world_height; j++) {
-			String row = new String(world[j]);
-			System.out.println("|" + row + "|");
+			System.out.print("|");
+			for(int k = 0; k < Params.world_width; k++) {
+				System.out.print(world[k][j]);
+			}
+			System.out.println("|");
 		}
 		// bottom border
 		System.out.print("+");
