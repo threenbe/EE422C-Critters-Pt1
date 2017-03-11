@@ -1,13 +1,12 @@
 package assignment4;
 /* CRITTERS Main.java
  * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * Timberlon Gray
+ * tg22698
+ * 16235
+ * Raiyan Chowdhury
+ * rac4444
+ * 16235
  * Slip days used: <0>
  * Fall 2016
  */
@@ -72,6 +71,7 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
+        
         boolean continueSim= true;
         while(continueSim) {
         	ArrayList<String> tokens = parse(kb);
@@ -87,13 +87,17 @@ public class Main {
 	        	}
         	}
         }
-        // System.out.println("GLHF");
         
         /* Write your code above */
         System.out.flush();
 
     }
     
+    /**
+     * Converts the input into an array of String tokens. 
+     * @param kb - keyboard input
+     * @return - array of tokens relatig to input
+     */
     public static ArrayList<String> parse(Scanner kb) {
     	String token = kb.nextLine();
     	Scanner sc = new Scanner(token);
@@ -105,12 +109,25 @@ public class Main {
     	return tokens;
     }
     
-    
+    /**
+     * Throws an exception if the command is not the correct length of tokens.
+     * @param tokens - keyboard input
+     * @param length - desired length of command
+     * @throws Exception - thrown if not desired length
+     */
     public static void checkCommandLength(ArrayList<String> tokens, int length) throws Exception {
     	if(tokens.size() != length) throw new Exception();
     }
     
-    
+    /**
+     * Takes a keyboard input and processes it. Checks for each command or 
+     * prints an error if no correct command exists. prints a different error 
+     * if the command is not structured correctly. 
+     * @param tokens - keyboard input structured as a series of tokens
+     * @return - whether or not to continue checking for commands, in other 
+     * words if "quit" was input.
+     * @throws Exception - thrown if incorrect command structure.
+     */
     public static boolean execute(ArrayList<String> tokens) throws Exception {
     	// quit
     	if(tokens.get(0).equals("quit")) {
@@ -139,7 +156,7 @@ public class Main {
     				checkCommandLength(tokens, 2);
     				steps = Integer.parseInt(tokens.get(1));
     			} catch (Exception e){ // next token isnt an int
-    				throw new Exception();
+    				throw e;
     			}
     		}
     		while (steps > 0) {
@@ -154,20 +171,12 @@ public class Main {
     			checkCommandLength(tokens, 2);
     			Critter.setSeed(Integer.parseInt(tokens.get(1)));
     		} catch (Exception e){ // next token isnt an int
-				throw new Exception();
+				throw e;
 			}
     		return true;
     	}
     	// make
     	if(tokens.get(0).equals("make")) {
-    		// records type of critter
-    		/*Class<?> type; 
-    		try {
-    		    type = Class.forName(tokens.get(1));
-    		} catch (Exception c) {
-    				throw c;
-    		}*/
-    		
     		// checks if number specified, or if not then 1
     		int num = 1;
     		if(tokens.size() > 2) {
@@ -175,7 +184,7 @@ public class Main {
     				checkCommandLength(tokens, 3);
     				num = Integer.parseInt(tokens.get(2));
     			} catch (Exception e){ // next token isn't an int or too many tokens
-    				throw new Exception();
+    				throw e;
     			}
     		}
     		try {
@@ -184,7 +193,7 @@ public class Main {
     				Critter.makeCritter(critter_class_name);
     			}
     		} catch (Exception e) {
-    			throw new Exception();
+    			throw e;
     		}
     		
     		return true;
@@ -199,14 +208,19 @@ public class Main {
     			Class<?> type = Class.forName(critter_class_name);
     			Method method = type.getMethod("runStats", List.class);
     			method.invoke(null, list_of_instances);
-    			//Critter.runStats(list_of_instances);
     		}
     		catch (Exception e) {
-    			throw new Exception();
+    			throw e;
     		}
     		return true;
     	}
     	//unknown command
-    	throw new Exception();
+    	System.out.print("invalid command:");
+		for(String token : tokens) {
+			System.out.print(" " + token);
+		}
+		System.out.println();
+		return true;
+		
     }
 }
