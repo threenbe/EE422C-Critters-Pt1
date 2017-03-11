@@ -177,10 +177,8 @@ public class Main {
     	}
     	// stats
     	if(tokens.get(0).equals("stats")) {
-    		if (tokens.size() > 2 || tokens.size() == 1) {
-    			throw new Exception();
-    		}
     		try {
+    			checkCommandLength(tokens, 2);
     			String critter_class_name = myPackage + "." + tokens.get(1);
     			List<Critter> list_of_instances = Critter.getInstances(critter_class_name);
     			Critter.runStats(list_of_instances);
