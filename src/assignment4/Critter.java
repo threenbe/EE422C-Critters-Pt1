@@ -76,27 +76,38 @@ public abstract class Critter {
 	}
 	
 	protected final void move(int direction, int steps) {
+		int w = Params.world_width;
+		int h = Params.world_height;
 		switch(direction) {
+		//(a % b + b) % b handles negative numbers
 			case 0://right
-				x_coord = (x_coord + steps) % Params.world_width;
+				x_coord = (((x_coord + steps) % w) + w) % w; 
+				break;
 			case 1://up-right
-				x_coord = (x_coord + steps) % Params.world_width;
-				y_coord = (y_coord - steps) % Params.world_height;
+				x_coord = (((x_coord + steps) % w) + w) % w; 
+				y_coord = (((y_coord - steps) % h) + h) % h; 
+				break;
 			case 2://up
-				y_coord = (y_coord - steps) % Params.world_height;
+				y_coord = (((y_coord - steps) % h) + h) % h; 
+				break;
 			case 3://up-left
-				x_coord = (x_coord - steps) % Params.world_width;
-				y_coord = (y_coord - steps) % Params.world_height;
+				x_coord = (((x_coord - steps) % w) + w) % w; 
+				y_coord = (((y_coord - steps) % h) + h) % h;
+				break;
 			case 4://left
-				x_coord = (x_coord - steps) % Params.world_width;
+				x_coord = (((x_coord - steps) % w) + w) % w;
+				break;
 			case 5://down-left
-				x_coord = (x_coord - steps) % Params.world_width;
-				y_coord = (y_coord + steps) % Params.world_height;
+				x_coord = (((x_coord - steps) % w) + w) % w;
+				y_coord = (((y_coord + steps) % h) + h) % h;
+				break;
 			case 6://down
-				y_coord = (y_coord + steps) % Params.world_height;
+				y_coord = (((y_coord + steps) % h) + h) % h;
+				break;
 			case 7://down-right
-				x_coord = (x_coord + steps) % Params.world_width;
-				y_coord = (y_coord + steps) % Params.world_height;
+				x_coord = (((x_coord + steps) % w) + w) % w;
+				y_coord = (((y_coord + steps) % h) + h) % h;
+				break;
 		}
 		
 	}
@@ -375,8 +386,15 @@ public abstract class Critter {
 	public static void displayWorld() {
 		// creates and populates 2D array representation of all the critters
 		char[][] world = new char[Params.world_width][Params.world_height];
+		
+		for (int x = 0; x < Params.world_width; x++) {
+			for (int y = 0; y < Params.world_height; y++) {
+				world[x][y] = ' ';
+			}
+		}
+		
 		for(Critter current : population) {
-			world[current.x_coord][current.y_coord] = current.toString().charAt(0);
+				world[current.x_coord][current.y_coord] = current.toString().charAt(0);
 		}
 		// prints the 2D array + border out
 		// top border

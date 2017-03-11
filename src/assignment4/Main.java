@@ -160,23 +160,32 @@ public class Main {
     	// make
     	if(tokens.get(0).equals("make")) {
     		// records type of critter
-    		Class<?> type; 
+    		/*Class<?> type; 
     		try {
     		    type = Class.forName(tokens.get(1));
     		} catch (Exception c) {
     				throw c;
-    		}
+    		}*/
+    		
     		// checks if number specified, or if not then 1
     		int num = 1;
     		if(tokens.size() > 2) {
     			try {
     				checkCommandLength(tokens, 3);
-    				num = Integer.parseInt(tokens.get(1));
-    			} catch (Exception e){ // next token isnt an int or too many tokens
+    				num = Integer.parseInt(tokens.get(2));
+    			} catch (Exception e){ // next token isn't an int or too many tokens
     				throw new Exception();
     			}
     		}
-    		// fsdfsfs
+    		try {
+    			String critter_class_name = myPackage + "." + tokens.get(1);
+    			for (int i = 0; i < num; i++) {
+    				Critter.makeCritter(critter_class_name);
+    			}
+    		} catch (Exception e) {
+    			throw new Exception();
+    		}
+    		
     		return true;
     	}
     	// stats
