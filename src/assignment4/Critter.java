@@ -263,9 +263,9 @@ public abstract class Critter {
 					
 					//dead critters removed from list of critters at this position
 					//should also remove if the critters move
-					if (a.energy <= 0 || (a.x_coord != x && a.y_coord != y))
+					if (a.energy <= 0 || a.x_coord != x || a.y_coord != y)
 						shared.remove(a);
-					if (b.energy <= 0 || (b.x_coord != x && b.y_coord != y))
+					if (b.energy <= 0 || b.x_coord != x || b.y_coord != y)
 						shared.remove(b);	
 				}
 				//"shared" list cleared so that the next position can be handled
