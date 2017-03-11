@@ -70,26 +70,19 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        while(true) {
+        boolean continueSim= true;
+        while(continueSim) {
         	ArrayList<String> tokens = parse(kb);
-        	if(tokens.get(0).equals("quit")) {
-        		if(tokens.size() != 1) { // this should probably be changed
-            		System.out.print("error processing:");
-            		for(String token : tokens) {
-            			System.out.print(" " + token);
-            		}
-            		System.out.println();
-        		}
-        		else break;
-        	}
-        	try {
-        		execute(tokens);
-        	} catch (Exception e) {
-        		System.out.print("error processing:");
-        		for(String token : tokens) {
-        			System.out.print(" " + token);
-        		}
-        		System.out.println();
+        	if(tokens.size() > 0) {
+	        	try {
+	        		continueSim = execute(tokens);
+	        	} catch (Exception e) {
+	        		System.out.print("error processing:");
+	        		for(String token : tokens) {
+	        			System.out.print(" " + token);
+	        		}
+	        		System.out.println();
+	        	}
         	}
         }
         // System.out.println("GLHF");
@@ -108,15 +101,21 @@ public class Main {
     }
     
     
-    public static void execute(ArrayList<String> tokens) {
+    public static boolean execute(ArrayList<String> tokens) throws Exception {
+    	if(tokens.get(0).equals("quit")) {
+    		if(tokens.size() != 1) {
+        		throw new Exception();
+    		}
+    		else return false;
+    	}
     	if(tokens.get(0).equals("show")) Critter.displayWorld();
     	if(tokens.get(0).equals("step")) {
     		int steps = 1;
     		if(tokens.size() > 1) {
     			try {
     				steps = Integer.parseInt(tokens.get(1));
-    			} catch (Exception e){
-    				return;
+    			} catch (Exception e){ // next token isnt an int
+    				throw new Exception();
     			}
     		}
     		while (steps > 0) {
@@ -124,5 +123,7 @@ public class Main {
     			steps--;
     		}
     	}
+    	// unknown command
+    	throw new Exception();
     }
 }
