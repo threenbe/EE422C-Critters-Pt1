@@ -159,20 +159,24 @@ public class Main {
     	}
     	// make
     	if(tokens.get(0).equals("make")) {
+    		// records type of critter
     		Class<?> type; 
-    		
-    		List<Critter> result = new java.util.ArrayList<Critter>();
-    		/*for(Critter current : population) {
-    			Class<?> type;
-    			try{
-    		    type = Class.forName(critter_class_name);
-    			} catch (ClassNotFoundException c) {
-    				throw new InvalidCritterException(critter_class_name);
+    		try {
+    		    type = Class.forName(tokens.get(1));
+    		} catch (Exception c) {
+    				throw c;
+    		}
+    		// checks if number specified, or if not then 1
+    		int num = 1;
+    		if(tokens.size() > 2) {
+    			try {
+    				checkCommandLength(tokens, 3);
+    				num = Integer.parseInt(tokens.get(1));
+    			} catch (Exception e){ // next token isnt an int or too many tokens
+    				throw new Exception();
     			}
-    		    if(type.isAssignableFrom(current.getClass())) {
-    		    	result.add(current);
-    		    }
-    		}*/
+    		}
+    		// fsdfsfs
     		return true;
     	}
     	// stats
