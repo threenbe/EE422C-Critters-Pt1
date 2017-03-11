@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.Method;
 
 
 /*
@@ -194,7 +195,11 @@ public class Main {
     			checkCommandLength(tokens, 2);
     			String critter_class_name = tokens.get(1);
     			List<Critter> list_of_instances = Critter.getInstances(critter_class_name);
-    			Critter.runStats(list_of_instances);
+    			critter_class_name = myPackage + "." + critter_class_name;
+    			Class<?> type = Class.forName(critter_class_name);
+    			Method method = type.getMethod("runStats", List.class);
+    			method.invoke(null, list_of_instances);
+    			//Critter.runStats(list_of_instances);
     		}
     		catch (Exception e) {
     			throw new Exception();
