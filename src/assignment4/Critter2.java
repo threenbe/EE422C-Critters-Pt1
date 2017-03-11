@@ -1,11 +1,13 @@
 package assignment4;
 
-import java.util.List;
-
 public class Critter2 extends Critter { // "sloth"
 	private int slowMove = 0; // moves every 6 turns
 	@Override
 	public void doTimeStep() {
+		if(getEnergy() == 60) {
+			Critter2 child = new Critter2();
+			reproduce(child, Critter.getRandomInt(8));
+		}
 		if(slowMove == 0) {
 			slowMove = 5;
 			walk(getRandomInt(8));
@@ -13,13 +15,13 @@ public class Critter2 extends Critter { // "sloth"
 	}
 
 	@Override
-	public boolean fight(String opponent) {
-		if (getEnergy() > 10) return true;
+	public boolean fight(String opponent) { // only "fights" plants
+		if (opponent.equals("@")) return true;
 		return false;
 	}
 	
 	public String toString() {
-		return "1";
+		return "2";
 	}
 	
 }

@@ -1,7 +1,5 @@
 package assignment4;
 
-import java.util.List;
-
 public class Critter1 extends Critter { // "runner"
 
 	@Override
