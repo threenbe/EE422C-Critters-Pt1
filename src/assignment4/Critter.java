@@ -144,9 +144,11 @@ public abstract class Critter {
 		Constructor<?> constructor = null;
 		Object instance_of_my_critter = null;
 		
+		critter_class_name = myPackage + "." + critter_class_name;
+		
 		try {
 			my_critter = Class.forName(critter_class_name);
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
 			throw new InvalidCritterException(critter_class_name);
 		}
 		//check if subclass of Critter
@@ -176,6 +178,7 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
+		critter_class_name = myPackage + "." + critter_class_name;
 		for(Critter current : population) {
 			Class<?> type;
 			try{

@@ -178,7 +178,7 @@ public class Main {
     			}
     		}
     		try {
-    			String critter_class_name = myPackage + "." + tokens.get(1);
+    			String critter_class_name = tokens.get(1);
     			for (int i = 0; i < num; i++) {
     				Critter.makeCritter(critter_class_name);
     			}
@@ -192,7 +192,7 @@ public class Main {
     	if(tokens.get(0).equals("stats")) {
     		try {
     			checkCommandLength(tokens, 2);
-    			String critter_class_name = myPackage + "." + tokens.get(1);
+    			String critter_class_name = tokens.get(1);
     			List<Critter> list_of_instances = Critter.getInstances(critter_class_name);
     			Critter.runStats(list_of_instances);
     		}
