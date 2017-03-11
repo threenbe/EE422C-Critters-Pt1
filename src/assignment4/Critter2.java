@@ -2,11 +2,14 @@ package assignment4;
 
 import java.util.List;
 
-public class Critter2 extends Critter {
-
+public class Critter2 extends Critter { // "sloth"
+	private int slowMove = 0; // moves every 6 turns
 	@Override
 	public void doTimeStep() {
-		run(getRandomInt(8));
+		if(slowMove == 0) {
+			slowMove = 5;
+			walk(getRandomInt(8));
+		} else slowMove--;
 	}
 
 	@Override
@@ -19,7 +22,4 @@ public class Critter2 extends Critter {
 		return "1";
 	}
 	
-	public void test (List<Critter> l) {
-		
-	}
 }
