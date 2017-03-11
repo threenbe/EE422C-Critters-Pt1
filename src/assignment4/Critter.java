@@ -185,9 +185,7 @@ public abstract class Critter {
 			}
 		    if(type.isAssignableFrom(current.getClass())) {
 		    	result.add(current);
-		    } else {
-		    	throw new InvalidCritterException(critter_class_name);
-		    }
+		    } 
 		}
 		return result;
 	}
@@ -346,7 +344,6 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
-		// TODO Complete this method.
 		
 		//do time steps
 		for (Critter c : population) {
