@@ -168,12 +168,14 @@ public abstract class Critter {
 		for(Critter current : population) {
 			Class<?> type;
 			try{
-		    type = Class.forName(critter_class_name);
+				type = Class.forName(critter_class_name);
 			} catch (ClassNotFoundException c) {
 				throw new InvalidCritterException(critter_class_name);
 			}
 		    if(type.isAssignableFrom(current.getClass())) {
 		    	result.add(current);
+		    } else {
+		    	throw new InvalidCritterException(critter_class_name);
 		    }
 		}
 		return result;
