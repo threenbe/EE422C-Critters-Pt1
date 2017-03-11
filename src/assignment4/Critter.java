@@ -57,13 +57,21 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
+	private boolean already_moved;
+	
 	protected final void walk(int direction) {
-		move(direction, 1);
+		if (!already_moved) {
+			already_moved = true;
+			move(direction, 1);
+		}
 		energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		move(direction, 2);
+		if (!already_moved) {
+			already_moved = true;
+			move(direction, 2);
+		}
 		energy -= Params.run_energy_cost;
 	}
 	
@@ -145,6 +153,7 @@ public abstract class Critter {
 		c.energy = Params.start_energy;
 		c.x_coord = getRandomInt(Params.world_width);
 		c.y_coord = getRandomInt(Params.world_height);
+		c.already_moved = false;
 		population.add(c);
 	}
 	
@@ -351,6 +360,11 @@ public abstract class Critter {
 		//add babies to population
 		population.addAll(babies);
 		babies.clear();
+		
+		//set already_moved variables to false for next time step
+		for (Critter c: population) {
+			c.already_moved = false;
+		}
 		
 		//remove dead critters
 		removeDeadCritters();
