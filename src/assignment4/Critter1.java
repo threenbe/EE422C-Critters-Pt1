@@ -13,29 +13,25 @@ package assignment4;
 
 public class Critter1 extends Critter {
 /**
- * The Runner must always run. It will reprocude only with a significant 
- * amount of energy headroom.
+ * The Berserker always runs and will (have to) fight whenever it 
+ * encounters another Critter. It will reproduce only with a significant 
+ * amount of energy head room.
  */
 	@Override
 	public void doTimeStep() {
-		if(getEnergy() > 250) {
+		if(getEnergy() > Params.start_energy * 2.5) {
 			Critter1 child = new Critter1();
 			reproduce(child, Critter.getRandomInt(8));
 		}
 		run(getRandomInt(8));
 	}
 /**
- * The critter will always try to run, except in the cases where it is hungry 
- * and desperate to eat (will die in <3 turns of running) or where it is likely 
- * to win a fight because of its energy count.
+ * Since the Berserker always runs on his turn, he will always have 
+ * to fight regardless of the code here. 
  */
 	@Override
 	public boolean fight(String opponent) {
-		if ((getEnergy() > 100) || (getEnergy() < Params.run_energy_cost * 3)) {
-			return true;
-		}
-		run(getRandomInt(8));
-		return false;
+		return true;
 	}
 	
 	public String toString() {

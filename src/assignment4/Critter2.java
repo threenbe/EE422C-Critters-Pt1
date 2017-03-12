@@ -30,12 +30,13 @@ public class Critter2 extends Critter {
 	}
 
 /**
- * Because the sloth is vegetarian, it will try to run from any 
- * fight that is not with algae.
+ * Because the sloth is vegetarian, it will try to run (well, walk since 
+ * they can't run) from any fight that is not with algae.
  */
 	@Override
 	public boolean fight(String opponent) {
 		if (opponent.equals("@")) return true;
+		walk(getRandomInt(8));
 		return false;
 	}
 	
