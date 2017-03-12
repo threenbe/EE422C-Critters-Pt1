@@ -216,7 +216,7 @@ public class Main {
     		}
     		return true;
     	}
-    	if(tokens.get(0).equals("info")) {
+/*    	if(tokens.get(0).equals("info")) {
     		checkCommandLength(tokens, 2);
     		int index = Integer.parseInt(tokens.get(1));
     		List<Critter> pop = Critter.TestCritter.getPopulation();
@@ -225,7 +225,7 @@ public class Main {
     			System.out.println(x.getClass() + ": " + x.getEnergy() + " (" + x.x_coord + ":" + x.y_coord + ")");
     		}
     		return true;
-    	}
+    	}*/
     	//unknown command
     	System.out.print("invalid command:");
 		for(String token : tokens) {

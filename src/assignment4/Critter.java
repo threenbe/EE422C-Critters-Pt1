@@ -54,11 +54,15 @@ public abstract class Critter {
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
 	
-	/*private*/ int x_coord;
-	/*private*/ int y_coord;
+	private int x_coord;
+	private int y_coord;
 	
 	private boolean already_moved;
 	
+	/**
+	 * checks if the critter already moved, then calls move() below for 1 step. 
+	 * @param direction
+	 */
 	protected final void walk(int direction) {
 		if (!already_moved) {
 			already_moved = true;
@@ -66,7 +70,10 @@ public abstract class Critter {
 		}
 		energy -= Params.walk_energy_cost;
 	}
-	
+	/**
+	 * checks if the critter already moved, then calls move() below for 2 steps. 
+	 * @param direction
+	 */
 	protected final void run(int direction) {
 		if (!already_moved) {
 			already_moved = true;
@@ -75,6 +82,11 @@ public abstract class Critter {
 		energy -= Params.run_energy_cost;
 	}
 	
+	/**
+	 * Moves a critter according to the direction and steps values input.
+	 * @param direction - direction that the critter will move in.
+	 * @param steps - how many spaces the critter will move in that direction.
+	 */
 	protected final void move(int direction, int steps) {
 		int w = Params.world_width;
 		int h = Params.world_height;
@@ -112,6 +124,14 @@ public abstract class Critter {
 		
 	}
 	
+	/**
+	 * Takes a newly initialized offspring and places it into the world according 
+	 * to the parent's location and the direction input. Then changes the energy 
+	 * values of the parent and offspring as stated in the assignment info.
+	 * @param offspring - newly initialized Critter
+	 * @param direction - direction in relation to the parent that the critter 
+	 * should be placed.
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		// check if parent has enough energy
 		if(this.getEnergy() < Params.min_reproduce_energy) return;
@@ -216,7 +236,9 @@ public abstract class Critter {
 		}
 		System.out.println();		
 	}
-	
+	/*
+	 * Carries out each Encounter i.e. whenever two Critters are in the same location. 
+	 */
 	public static void doEncounters() {
 		List<Critter> shared = new ArrayList<Critter>();
 		for (int x = 0; x < Params.world_width; x++) {
@@ -346,7 +368,10 @@ public abstract class Critter {
 		population.clear();
 		babies.clear();
 	}
-	
+	/**
+	 * Performs all necessary work associated with each "step" done across 
+	 * the whole simulation. See notes in code for details. 
+	 */
 	public static void worldTimeStep() {
 		
 		//do time steps
@@ -384,6 +409,9 @@ public abstract class Critter {
 		removeDeadCritters();
 	}
 	
+	/**
+	 * Displays the location of each critter on a 2-d rectangle with a border. 
+	 */
 	public static void displayWorld() {
 		// creates and populates 2D array representation of all the critters
 		char[][] world = new char[Params.world_width][Params.world_height];
