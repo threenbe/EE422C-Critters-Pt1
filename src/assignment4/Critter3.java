@@ -1,25 +1,53 @@
 package assignment4;
 
 public class Critter3 extends Critter {
-
-	@Override
-	public void doTimeStep() {
-		// TODO Auto-generated method stub
-		
+	
+	private int dir;
+	private int time_to_move;
+	
+	public Critter3() {
+		dir = Critter.getRandomInt(8);
+		time_to_move = 3;
 	}
 
 	@Override
 	/**
-	 * This critter is a carnivore that unconditionally fights non-Algae critters.
-	 * Unfortunately it is allergic to plants and has a 50/50 chance of dying should 
-	 * it encounter Algae and fail to escape from it.
+	 * This critter will move every 3 turns in search of food (i.e. other critters),
+	 * but otherwise does not move as it is typically rather lazy, even if it is
+	 * very hungry (i.e. low on energy).
+	 * It is however very interested in carrying on its lineage, and will always reproduce
+	 * as long as it meets the minimum energy requirement.
+	 */
+	public void doTimeStep() {
+		// TODO Auto-generated method stub
+		if (getEnergy() >= Params.min_reproduce_energy) {
+			Critter3 child = new Critter3();
+			reproduce(child, Critter.getRandomInt(8));
+		}
+		if (time_to_move == 0) {
+			time_to_move = 3;
+			walk(dir);
+			dir = (dir*Critter.getRandomInt(8)) % 8;
+		} else {
+			time_to_move -= 1;
+		}
+	}
+
+	@Override
+	/**
+	 * This critter is a carnivore that unconditionally fights (hunts) non-Algae critters.
+	 * Unfortunately, it is allergic to plants and has a 50/50 chance of dying should 
+	 * it encounter Algae and fail to escape from it. If it survives, it gains newfound
+	 * energy from its near-death experience. What doesn't kill you makes you stronger.
 	 * @param String representation of opponent
 	 */
-	public boolean fight(String oponent) {
-		if (!oponent.equals("@")) {
+	public boolean fight(String opponent) {
+		if (!opponent.equals("@")) {
 			return true;
 		}
-		int dir = Critter.getRandomInt(8);
+		if (dir%2 == 0) {
+			dir = (dir+1)%8;
+		}
 		run(dir);
 		return false;
 	}
