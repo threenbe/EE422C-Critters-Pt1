@@ -1,4 +1,15 @@
 package assignment4;
+/* CRITTERS Critter3.java
+ * EE422C Project 4 submission by
+ * Timberlon Gray
+ * tg22698
+ * 16235
+ * Raiyan Chowdhury
+ * rac4444
+ * 16235
+ * Slip days used: <0>
+ * Fall 2016
+ */
 
 public class Critter3 extends Critter {
 	

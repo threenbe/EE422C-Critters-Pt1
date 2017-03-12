@@ -1,5 +1,5 @@
 package assignment4;
-/* CRITTERS Main.java
+/* CRITTERS Critter1.java
  * EE422C Project 4 submission by
  * Timberlon Gray
  * tg22698
