@@ -19,7 +19,6 @@ public class Critter3 extends Critter {
 	 * as long as it meets the minimum energy requirement.
 	 */
 	public void doTimeStep() {
-		// TODO Auto-generated method stub
 		if (getEnergy() >= Params.min_reproduce_energy) {
 			Critter3 child = new Critter3();
 			reproduce(child, Critter.getRandomInt(8));

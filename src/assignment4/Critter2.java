@@ -19,7 +19,7 @@ public class Critter2 extends Critter {
  */
 	@Override
 	public void doTimeStep() {
-		if(getEnergy() > 40) {
+		if(getEnergy() > 40 && getEnergy() >= Params.min_reproduce_energy) {
 			Critter2 child = new Critter2();
 			reproduce(child, Critter.getRandomInt(8));
 		}
