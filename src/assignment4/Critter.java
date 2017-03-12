@@ -54,19 +54,10 @@ public abstract class Critter {
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
 	
-	private int x_coord;
-	private int y_coord;
+	/*private*/ int x_coord;
+	/*private*/ int y_coord;
 	
 	private boolean already_moved;
-	private static boolean pre_encounter_movements_done;
-	
-	private static void setEncounterStatus(boolean b) {
-		pre_encounter_movements_done = b;
-	}
-	
-	private static boolean getEncounterStatus() {
-		return pre_encounter_movements_done;
-	}
 	
 	protected final void walk(int direction) {
 		if (!already_moved) {
@@ -84,93 +75,41 @@ public abstract class Critter {
 		energy -= Params.run_energy_cost;
 	}
 	
-	private final void move(int direction, int steps) {
+	protected final void move(int direction, int steps) {
 		int w = Params.world_width;
 		int h = Params.world_height;
-		int x, y;
 		switch(direction) {
 		//(a % b + b) % b handles negative numbers
 			case 0://right
-				x = (((x_coord + steps) % w) + w) % w;
-				y = y_coord;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord + steps) % w) + w) % w; 
 				break;
 			case 1://up-right
-				x = (((x_coord + steps) % w) + w) % w; 
-				y = (((y_coord - steps) % h) + h) % h; 
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord + steps) % w) + w) % w; 
+				y_coord = (((y_coord - steps) % h) + h) % h; 
 				break;
 			case 2://up
-				x = x_coord;
-				y = (((y_coord - steps) % h) + h) % h; 
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				y_coord = (((y_coord - steps) % h) + h) % h; 
 				break;
 			case 3://up-left
-				x = (((x_coord - steps) % w) + w) % w; 
-				y = (((y_coord - steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord - steps) % w) + w) % w; 
+				y_coord = (((y_coord - steps) % h) + h) % h;
 				break;
 			case 4://left
-				x = (((x_coord - steps) % w) + w) % w;
-				y = y_coord;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord - steps) % w) + w) % w;
 				break;
 			case 5://down-left
-				x = (((x_coord - steps) % w) + w) % w;
-				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord - steps) % w) + w) % w;
+				y_coord = (((y_coord + steps) % h) + h) % h;
 				break;
 			case 6://down
-				x = x_coord;
-				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				y_coord = (((y_coord + steps) % h) + h) % h;
 				break;
 			case 7://down-right
-				x = (((x_coord + steps) % w) + w) % w;
-				y = (((y_coord + steps) % h) + h) % h;
-				if (moveOK(x,y)) {
-					x_coord = x;
-					y_coord = y;
-				}
+				x_coord = (((x_coord + steps) % w) + w) % w;
+				y_coord = (((y_coord + steps) % h) + h) % h;
 				break;
 		}
 		
-	}
-	
-	private boolean moveOK(int x, int y) {
-		boolean ok = true;//it's OK to move by default
-		//if we don't have to check for critters then the function returns true
-		if (getEncounterStatus()) {
-			for (Critter c : population) {
-				//if a critter is found in our spot then we return false
-				if (x == c.x_coord && y == c.y_coord) {
-					ok = false;
-					break;
-				}
-			}
-		}
-		return ok;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -278,7 +217,7 @@ public abstract class Critter {
 		System.out.println();		
 	}
 	
-	private static void doEncounters() {
+	public static void doEncounters() {
 		List<Critter> shared = new ArrayList<Critter>();
 		for (int x = 0; x < Params.world_width; x++) {
 			for (int y = 0; y < Params.world_height; y++) {
@@ -324,9 +263,9 @@ public abstract class Critter {
 					
 					//dead critters removed from list of critters at this position
 					//should also remove if the critters move
-					if (a.energy <= 0 || a.x_coord != x || a.y_coord != y)
+					if (a.energy <= 0 || (a.x_coord != x && a.y_coord != y))
 						shared.remove(a);
-					if (b.energy <= 0 || b.x_coord != x || b.y_coord != y)
+					if (b.energy <= 0 || (b.x_coord != x && b.y_coord != y))
 						shared.remove(b);	
 				}
 				//"shared" list cleared so that the next position can be handled
@@ -409,13 +348,12 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
-		setEncounterStatus(false);
+		
 		//do time steps
 		for (Critter c : population) {
 			c.doTimeStep();
 		}
 		
-		setEncounterStatus(true);
 		//resolve encounters
 		doEncounters();
 		

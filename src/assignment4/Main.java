@@ -216,6 +216,16 @@ public class Main {
     		}
     		return true;
     	}
+    	if(tokens.get(0).equals("info")) {
+    		checkCommandLength(tokens, 2);
+    		int index = Integer.parseInt(tokens.get(1));
+    		List<Critter> pop = Critter.TestCritter.getPopulation();
+    		if(pop.size() > index) {
+    			Critter x = pop.get(index); 
+    			System.out.println(x.getClass() + ": " + x.getEnergy() + " (" + x.x_coord + ":" + x.y_coord + ")");
+    		}
+    		return true;
+    	}
     	//unknown command
     	System.out.print("invalid command:");
 		for(String token : tokens) {
