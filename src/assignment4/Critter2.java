@@ -8,7 +8,7 @@ package assignment4;
  * rac4444
  * 16235
  * Slip days used: <1>
- * Fall 2016
+ * Spring 2017
  */
 
 public class Critter2 extends Critter {
