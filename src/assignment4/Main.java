@@ -216,6 +216,7 @@ public class Main {
     		}
     		return true;
     	}
+    	
 /*    	if(tokens.get(0).equals("info")) {
     		checkCommandLength(tokens, 2);
     		int index = Integer.parseInt(tokens.get(1));
@@ -226,6 +227,7 @@ public class Main {
     		}
     		return true;
     	}*/
+
     	//unknown command
     	System.out.print("invalid command:");
 		for(String token : tokens) {
