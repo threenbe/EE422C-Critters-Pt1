@@ -203,6 +203,8 @@ public class Main {
     		try {
     			checkCommandLength(tokens, 2);
     			String critter_class_name = tokens.get(1);
+    			if (critter_class_name.toLowerCase().equals("critter"))
+    				throw new Exception();
     			List<Critter> list_of_instances = Critter.getInstances(critter_class_name);
     			critter_class_name = myPackage + "." + critter_class_name;
     			Class<?> type = Class.forName(critter_class_name);
